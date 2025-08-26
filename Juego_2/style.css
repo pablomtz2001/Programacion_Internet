@@ -1,0 +1,280 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.timer {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #00d4ff;
+  margin-bottom: 10px;
+}
+
+.status {
+  font-size: 1em;
+  color: #cccccc;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.maze-container {
+  position: relative;
+  width: 800px;
+  height: 540px;
+  background: #1e1e2e;
+  border: 3px solid #333;
+  border-radius: 15px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+/* Zona de inicio */
+.start-zone {
+  position: absolute;
+  top: 480px;
+  left: 50px;
+  width: 120px;
+  height: 40px;
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  font-size: 1.1em;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+  z-index: 10;
+}
+
+/* Zona de meta */
+.goal-zone {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  width: 120px;
+  height: 40px;
+  background: linear-gradient(45deg, #f97316, #ea580c);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  font-size: 1.1em;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+  z-index: 10;
+}
+
+/* Paredes */
+.wall {
+  position: absolute;
+  background: linear-gradient(45deg, #374151, #4b5563);
+  border: 2px solid #6b7280;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.wall-horizontal {
+  border-left: 3px solid #9ca3af;
+  border-right: 3px solid #9ca3af;
+}
+
+.wall-vertical {
+  border-top: 3px solid #9ca3af;
+  border-bottom: 3px solid #9ca3af;
+}
+
+/* Jugador */
+.player {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #00d4ff, #0099cc);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+  z-index: 20;
+  pointer-events: none;
+  transition: all 0.1s ease;
+}
+
+/* Controles */
+.controls {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.controls button {
+  background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  margin: 0 10px;
+  border-radius: 25px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+}
+
+.controls button:active {
+  transform: translateY(0);
+}
+
+/* Mensajes */
+.message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  z-index: 1000;
+  min-width: 300px;
+}
+
+.message h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #00d4ff;
+}
+
+.message p {
+  font-size: 1.2em;
+  margin-bottom: 25px;
+  color: #cccccc;
+}
+
+.message button {
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.message button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
+}
+
+/* Animaciones */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.start-zone:hover, .goal-zone:hover {
+  animation: pulse 1s infinite;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .maze-container {
+    width: 600px;
+    height: 400px;
+  }
+  
+  .start-zone, .goal-zone {
+    width: 100px;
+    height: 35px;
+    font-size: 1em;
+  }
+  
+  .start-zone {
+    top: 350px;
+    left: 40px;
+  }
+  
+  .goal-zone {
+    top: 15px;
+    right: 40px;
+  }
+  
+  .wall {
+    transform: scale(0.75);
+  }
+}
+
+@media (max-width: 700px) {
+  .game-container {
+    padding: 15px;
+  }
+  
+  .header h1 {
+    font-size: 2em;
+  }
+  
+  .maze-container {
+    width: 400px;
+    height: 300px;
+  }
+  
+  .start-zone, .goal-zone {
+    width: 80px;
+    height: 30px;
+    font-size: 0.9em;
+  }
+  
+  .start-zone {
+    top: 260px;
+    left: 30px;
+  }
+  
+  .goal-zone {
+    top: 10px;
+    right: 30px;
+  }
+}
+
+

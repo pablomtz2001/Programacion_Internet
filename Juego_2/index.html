@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laberinto del Mouse</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="header">
+        <h1>Laberinto del Mouse</h1>
+        <div class="timer">Tiempo: <span id="timer">00:00.000</span></div>
+        <div class="status" id="status">Posiciona el mouse en START y haz clic
+          para comenzar</div>
+      </div>
+
+      <div class="maze-container" id="maze">
+        <!-- START -->
+        <div class="start-zone" id="start">
+          <span>START</span>
+        </div>
+
+        <!-- GOAL -->
+        <div class="goal-zone" id="goal">
+          <span>GOAL</span>
+        </div>
+
+        <!-- Paredes del laberinto -->
+        <div class="wall wall-horizontal"
+          style="top: 20px; left: 20px; width: 760px; height: 20px;"></div>
+        <div class="wall wall-horizontal"
+          style="top: 500px; left: 20px; width: 760px; height: 20px;"></div>
+        <div class="wall wall-vertical"
+          style="top: 20px; left: 20px; width: 20px; height: 500px;"></div>
+        <div class="wall wall-vertical"
+          style="top: 20px; left: 760px; width: 20px; height: 500px;"></div>
+
+        <!-- Paredes internas -->
+        <div class="wall wall-horizontal"
+          style="top: 120px; left: 120px; width: 200px; height: 15px;"></div>
+        <div class="wall wall-horizontal"
+          style="top: 200px; left: 300px; width: 200px; height: 15px;"></div>
+        <div class="wall wall-vertical"
+          style="top: 120px; left: 300px; width: 15px; height: 200px;"></div>
+        <div class="wall wall-vertical"
+          style="top: 200px; left: 120px; width: 15px; height: 200px;"></div>
+
+        <div class="wall wall-horizontal"
+          style="top: 300px; left: 120px; width: 200px; height: 15px;"></div>
+        <div class="wall wall-horizontal"
+          style="top: 380px; left: 300px; width: 200px; height: 15px;"></div>
+        <div class="wall wall-vertical"
+          style="top: 300px; left: 300px; width: 15px; height: 200px;"></div>
+        <div class="wall wall-vertical"
+          style="top: 380px; left: 120px; width: 15px; height: 200px;"></div>
+
+        <!-- Cursor del jugador -->
+        <div class="player" id="player"></div>
+      </div>
+
+      <div class="controls">
+        <button id="restartBtn" onclick="restartGame()">Reiniciar</button>
+        <button id="nextLevelBtn" onclick="nextLevel()"
+          style="display: none;">Siguiente Nivel</button>
+      </div>
+
+      <!-- Mensajes -->
+      <div class="message" id="winMessage" style="display: none;">
+        <h2>¡Victoria!</h2>
+        <p>Tiempo: <span id="winTime"></span></p>
+        <button onclick="nextLevel()">Siguiente Nivel</button>
+      </div>
+
+      <div class="message" id="loseMessage" style="display: none;">
+        <h2>¡Colisión!</h2>
+        <p>Has tocado una pared</p>
+        <button onclick="restartGame()">Reintentar</button>
+      </div>
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>
