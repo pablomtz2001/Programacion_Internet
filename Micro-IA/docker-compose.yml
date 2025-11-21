@@ -1,0 +1,77 @@
+
+
+services:
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - AI_SERVICE_URL=http://ai-service:8001
+      - USER_SERVICE_URL=http://user-service:8002
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    depends_on:
+      - ai-service
+      - user-service
+    networks:
+      - microservices-network
+    volumes:
+      - ./services/api-gateway:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Servicio de IA
+  ai-service:
+    build:
+      context: ./services/ai-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - PORT=8001
+    networks:
+      - microservices-network
+    volumes:
+      - ./services/ai-service:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8001 --reload
+
+  # Servicio de Usuarios
+  user-service:
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - PORT=8002
+      - JWT_SECRET=${JWT_SECRET:-secret-key-change-in-production}
+    networks:
+      - microservices-network
+    volumes:
+      - ./services/user-service:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8002 --reload
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - api-gateway
+    networks:
+      - microservices-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm start
+
+networks:
+  microservices-network:
+    driver: bridge
+
